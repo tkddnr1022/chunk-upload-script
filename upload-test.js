@@ -86,13 +86,29 @@ class UploadTester {
 
   formatSpeed(bytesPerSec) {
     if (bytesPerSec === 0) return '-';
+    
+    // 바이트 단위
+    let bytesStr;
     if (bytesPerSec >= 1024 * 1024) {
-      return `${(bytesPerSec / (1024 * 1024)).toFixed(2)} MB/s`;
+      bytesStr = `${(bytesPerSec / (1024 * 1024)).toFixed(2)} MB/s`;
     } else if (bytesPerSec >= 1024) {
-      return `${(bytesPerSec / 1024).toFixed(2)} KB/s`;
+      bytesStr = `${(bytesPerSec / 1024).toFixed(2)} KB/s`;
     } else {
-      return `${bytesPerSec.toFixed(0)} B/s`;
+      bytesStr = `${bytesPerSec.toFixed(0)} B/s`;
     }
+    
+    // 비트 단위 (1 바이트 = 8 비트)
+    const bitsPerSec = bytesPerSec * 8;
+    let bitsStr;
+    if (bitsPerSec >= 1024 * 1024) {
+      bitsStr = `${(bitsPerSec / (1024 * 1024)).toFixed(2)} Mbps`;
+    } else if (bitsPerSec >= 1024) {
+      bitsStr = `${(bitsPerSec / 1024).toFixed(2)} Kbps`;
+    } else {
+      bitsStr = `${bitsPerSec.toFixed(0)} bps`;
+    }
+    
+    return `${bytesStr} (${bitsStr})`;
   }
 
   calculateSpeed(bytes, startTime) {
