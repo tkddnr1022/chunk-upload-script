@@ -1,0 +1,29 @@
+{
+  "name": "upload-test-cli",
+  "version": "1.0.0",
+  "description": "업로드 성능 테스트 CLI 도구",
+  "main": "upload-test.js",
+  "bin": {
+    "upload-test": "./upload-test.js"
+  },
+  "scripts": {
+    "start": "node upload-test.js",
+    "test": "node upload-test.js --help"
+  },
+  "keywords": [
+    "upload",
+    "test",
+    "performance",
+    "chunk",
+    "cli"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "form-data": "^4.0.0",
+    "node-fetch": "^2.6.7"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+} 

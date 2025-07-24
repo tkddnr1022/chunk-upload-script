@@ -1,0 +1,34 @@
+{
+  "apiOrigin": "https://dev.cms.freecomics.kr",
+  "testCount": 1,
+  "parallelCount": 5,
+  "chunkSize": 10,
+  "jwtToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAyLCJzb2NpYWxfcGxhdGZvcm0iOiJPUklHSU5BTCIsInNvY2lhbF9pZCI6InRrZGRucjEwMjIiLCJuaWNrbmFtZSI6InRrZGRucjEwMjIiLCJhY2NvdW50X3N0YXR1cyI6MCwicm9sZV9ieXRlIjo1LCJlbnRlcnByaXNlX25hbWUiOiItIiwiZW50ZXJwcmlzZV9udW1iZXIiOiItIiwiY3JlYXRlZF90aW1lIjp7InV0YyI6MTc1MTM0ODcwNzAwMCwiZm9ybWF0dGVkIjoiMjAyNS43LjEg7Jik7ZuEIDI6NDU6MDciLCJjb252ZXJ0ZWQiOiIyMDI1LjcuMSJ9LCJ1cGRhdGVkX3RpbWUiOnsidXRjIjoxNzUxMzQ4NzA3MDAwLCJmb3JtYXR0ZWQiOiIyMDI1LjcuMSDsmKTtm4QgMjo0NTowNyIsImNvbnZlcnRlZCI6IjIwMjUuNy4xIn0sImV4cGlyZWRfdGltZSI6eyJ1dGMiOjE3NTEzNDg3MDcwMDAsImZvcm1hdHRlZCI6IjIwMjUuNy4xIOyYpO2bhCAyOjQ1OjA3IiwiY29udmVydGVkIjoiMjAyNS43LjEifSwiaWF0IjoxNzUzMzE3NTc2LCJleHAiOjE3NTM5MjIzNzZ9.ZviQqHfoOvEkX-fAd7FMCqh6XePPsweobDHEhuZaom0",
+  "requestIdPath": "/v1/translation-re/init",
+  "requestIdBody": {
+    "language": "KO",
+    "target_language": [
+      "EN",
+      "JP"
+    ],
+    "dir_name": "",
+    "ext": ""
+  },
+  "paths": {
+    "singleUploadPath": "/v1/translation-re",
+    "uploadChunkPath": "/v1/translation-re/chunk",
+    "mergeChunksPath": "/v1/translation-re/merge"
+  },
+  "customFields": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "customHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ]
+}
