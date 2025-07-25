@@ -1,45 +1,58 @@
-# 업로드 테스트 CLI 도구
+# 업로드 테스트 도구 (리눅스 네이티브 버전)
 
-App.js의 기능을 리눅스에서 실행 가능한 CLI 스크립트로 변환한 도구입니다.
+Node.js 없이 리눅스 기본 기능만으로 동작하는 업로드 테스트 스크립트입니다.
 
-## 기능
+## 필수 도구
 
-- 단일 파일 업로드 성능 테스트
-- 청크 단위 업로드 성능 테스트
-- 병렬 업로드 지원
-- Request ID 발급 및 추적
-- JWT 토큰 인증 지원
-- 커스텀 헤더 및 FormData 필드 지원
-- 측정 기록 저장 및 조회
-- 대화형 설정 관리
+다음 도구들이 시스템에 설치되어 있어야 합니다:
+
+- `curl` - HTTP 요청 전송
+- `jq` - JSON 처리
+- `awk` - 텍스트 처리
+- `sed` - 텍스트 편집
+- `date` - 날짜/시간 처리
+- `stat` - 파일 정보 조회
+- `bc` - 수학 계산
 
 ## 설치
 
-1. 의존성 설치:
+### Ubuntu/Debian
 ```bash
-npm install
+sudo apt-get update
+sudo apt-get install curl jq
 ```
 
-2. 실행 권한 부여 (리눅스/맥):
+### CentOS/RHEL
 ```bash
-chmod +x upload-test.js
+sudo yum install curl jq
+```
+
+### Alpine Linux
+```bash
+apk add curl jq
+```
+
+## 실행 권한 설정
+
+```bash
+chmod +x upload-test.sh
 ```
 
 ## 사용법
 
-### 1. 대화형 모드
+### 대화형 모드
 ```bash
-node upload-test.js
+./upload-test.sh
 ```
 
-### 2. 직접 테스트 실행
+### 직접 테스트 실행
 ```bash
-node upload-test.js <단일업로드파일경로> <청크업로드파일경로>
+./upload-test.sh <단일업로드파일> <청크업로드파일>
 ```
 
-### 3. 도움말
+### 도움말
 ```bash
-node upload-test.js --help
+./upload-test.sh --help
 ```
 
 ## 설정
@@ -65,90 +78,90 @@ node upload-test.js --help
     "uploadChunkPath": "/upload-chunk",
     "mergeChunksPath": "/merge-chunks"
   },
-  "customFields": [
-    {
-      "key": "",
-      "value": ""
-    }
-  ],
-  "customHeaders": [
-    {
-      "key": "",
-      "value": ""
-    }
-  ]
+  "customFields": [{"key": "", "value": ""}],
+  "customHeaders": [{"key": "", "value": ""}]
 }
 ```
 
-### 설정 항목 설명
+## 주요 기능
 
-- `apiOrigin`: API 서버 주소
-- `testCount`: 테스트 실행 횟수
-- `parallelCount`: 병렬 업로드 개수
-- `chunkSize`: 청크 크기 (MB)
-- `jwtToken`: JWT 인증 토큰
-- `requestIdPath`: Request ID 발급 엔드포인트
-- `requestIdBody`: Request ID 발급 시 전송할 데이터
-- `paths`: 각종 API 엔드포인트 경로
-- `customFields`: 커스텀 FormData 필드
-- `customHeaders`: 커스텀 HTTP 헤더
-
-## 대화형 메뉴
-
-1. **설정 보기**: 현재 설정을 확인
-2. **설정 수정**: 설정을 대화형으로 수정
-3. **테스트 실행**: 파일 경로를 입력하여 테스트 실행
-4. **측정 기록 보기**: 이전 테스트 결과 조회
-5. **측정 기록 지우기**: 테스트 기록 삭제
-6. **종료**: 프로그램 종료
+1. **단일 업로드 테스트** - 전체 파일을 한 번에 업로드
+2. **청크 업로드 테스트** - 파일을 여러 청크로 나누어 병렬 업로드
+3. **병렬 처리** - 설정 가능한 병렬 업로드 개수
+4. **Request ID 지원** - API에서 Request ID 발급 및 사용
+5. **JWT 인증** - Bearer 토큰 인증 지원
+6. **커스텀 헤더/필드** - 추가 헤더 및 폼 필드 설정
+7. **측정 기록** - 테스트 결과 히스토리 저장
+8. **속도 측정** - MB/s, Mbps 단위로 속도 표시
 
 ## 출력 예시
 
 ```
-🚀 업로드 테스트 시작...
+[INFO] 업로드 테스트 시작...
 
-📤 단일 업로드 테스트 시작...
-테스트 1 - 단일 업로드 성공 (2.34s)
+[INFO] Request ID 발급 중...
+[INFO] 테스트 1 발급된 Request ID: req_123456
 
-📤 청크 업로드 테스트 시작...
-파일 크기: 50.25 MB
-청크 크기: 10 MB (10,485,760 bytes)
-예상 청크 수: 5개
-병렬 업로드: 4개
-테스트 1 - 청크 1/5 완료 (20%)
-테스트 1 - 청크 2/5 완료 (40%)
-테스트 1 - 청크 3/5 완료 (60%)
-테스트 1 - 청크 4/5 완료 (80%)
-테스트 1 - 청크 5/5 완료 (100%)
-청크 병합 성공
-테스트 1 - 청크 업로드 및 병합 성공 (1.87s)
+[INFO] 단일 업로드 테스트 시작...
+[SUCCESS] 테스트 1 - 단일 업로드 성공 (2.45s)
 
-📊 테스트 결과:
+[INFO] 청크 업로드 테스트 시작...
+[INFO] 파일 크기: 50.25 MB
+[INFO] 청크 크기: 10 MB (10,485,760 bytes)
+[INFO] 예상 청크 수: 5개
+[INFO] 병렬 업로드: 4개
+[INFO] 테스트 1 - 청크 1/5 완료 (20%)
+[INFO] 테스트 1 - 청크 2/5 완료 (40%)
+[INFO] 테스트 1 - 청크 3/5 완료 (60%)
+[INFO] 테스트 1 - 청크 4/5 완료 (80%)
+[INFO] 테스트 1 - 청크 5/5 완료 (100%)
+[SUCCESS] 청크 병합 성공
+[SUCCESS] 테스트 1 - 청크 업로드 및 병합 성공 (1.23s)
+
+[INFO] 테스트 결과:
 ==================================================
-단일 업로드 평균 시간: 2.34s
-단일 업로드 평균 속도: 21.47 MB/s
-청크 업로드 평균 시간: 1.87s
-청크 업로드 평균 속도: 26.87 MB/s
+단일 업로드 평균 시간: 2.45s
+단일 업로드 평균 속도: 20.51 MB/s (164.08 Mbps)
+청크 업로드 평균 시간: 1.23s
+청크 업로드 평균 속도: 40.85 MB/s (326.80 Mbps)
 
-✅ 테스트 완료!
+[SUCCESS] 테스트 완료!
 ```
 
-## 파일 구조
+## 주의사항
 
+1. **임시 파일**: 청크 업로드 시 `/tmp/` 디렉토리에 임시 파일이 생성됩니다.
+2. **메모리 사용**: 대용량 파일 처리 시 충분한 메모리가 필요합니다.
+3. **네트워크**: 안정적인 네트워크 연결이 필요합니다.
+4. **권한**: 스크립트 실행 권한이 필요합니다.
+
+## 문제 해결
+
+### 도구가 설치되지 않은 경우
+```bash
+# Ubuntu/Debian
+sudo apt-get install curl jq
+
+# CentOS/RHEL
+sudo yum install curl jq
+
+# Alpine
+apk add curl jq
 ```
-.
-├── upload-test.js          # 메인 스크립트
-├── config.json            # 설정 파일
-├── package.json           # 의존성 정보
-├── README.md              # 사용법 설명
-└── upload-history.json    # 테스트 기록 (자동 생성)
+
+### 실행 권한 오류
+```bash
+chmod +x upload-test.sh
 ```
 
-## 요구사항
+### JSON 파싱 오류
+`jq` 도구가 올바르게 설치되었는지 확인하세요:
+```bash
+echo '{"test": "value"}' | jq .
+```
 
-- Node.js 14.0.0 이상
-- npm 또는 yarn
-
-## 라이선스
-
-MIT License 
+### 네트워크 연결 오류
+API 서버가 실행 중이고 접근 가능한지 확인하세요:
+```bash
+curl -I http://localhost:3000
+``` 
